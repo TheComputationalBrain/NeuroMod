@@ -35,7 +35,7 @@ def plot_individual_clusters(tasks, contrasts, output_dir):
         for task in tasks:
             params, paths, _ = load_config(task, return_what='all')
             _, add_info = mf.get_beta_dir_and_info(task, params, paths)
-            group_dir = os.path.join(paths.home_dir, task, 'schaefer', 'second_level')
+            group_dir = os.path.join(paths.home_dir, task, 'second_level')
 
             img_path = os.path.join(group_dir, f'{contrast}_logp_max_mass{add_info}_{FWHM}.nii.gz')
             img = nib.load(img_path)
@@ -74,7 +74,7 @@ def plot_cluster_overlap_all(tasks, contrasts, output_dir):
             for task in tasks:
                 params, paths, _ = load_config(task, return_what='all')
                 _, add_info = mf.get_beta_dir_and_info(task, params, paths)
-                group_dir = os.path.join(paths.home_dir, task, 'schaefer', 'second_level')
+                group_dir = os.path.join(paths.home_dir, task, 'second_level')
                 img_path = os.path.join(group_dir, f'{contrast}_logp_max_mass{add_info}_{FWHM}.nii.gz')
                 img = nib.load(img_path)
                 texture = surface.vol_to_surf(img, getattr(fsaverage, f'pial_{hemi}'))
@@ -123,10 +123,10 @@ def run_correlations(tasks, output_dir):
     for task in tasks:
         params, paths, _ = load_config(task, return_what='all')
         _, add_info = mf.get_beta_dir_and_info(task, params, paths)
-        base_dir = os.path.join(paths.home_dir, task, 'schaefer', 'second_level')
+        base_dir = os.path.join(paths.home_dir, task, 'second_level')
         for fname in os.listdir(base_dir):
             for contrast in ['confidence', 'surprise']:
-                if fname.endswith(f"{contrast}_schaefer_effect_map{add_info}.nii.gz"):
+                if fname.endswith(f"{contrast}_effect_map{add_info}.nii.gz"):
                     img = nib.load(os.path.join(base_dir, fname))
                     surf_data = transforms.mni152_to_fsaverage(img, fsavg_density='41k')
                     data = np.hstack([d.agg_data().T for d in surf_data])
